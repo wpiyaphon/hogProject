@@ -4,6 +4,8 @@ import { Container, Typography } from '@mui/material';
 // components
 import { useSettingsContext } from '../../components/settings';
 
+//Table
+import { AllStudentTable} from './Table/AllStudentTable'
 // ----------------------------------------------------------------------
 
 export default function AllStudentsPage() {
@@ -16,9 +18,6 @@ export default function AllStudentsPage() {
             </Helmet>
 
             <Container maxWidth={themeStretch ? false : 'xl'}>
-                <Typography variant="h3" component="h1" paragraph>
-                    Saw Edit All Students
-                </Typography>
 
             </Container>
         </>
