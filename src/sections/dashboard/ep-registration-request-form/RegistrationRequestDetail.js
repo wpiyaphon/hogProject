@@ -71,6 +71,9 @@ RegistrationRequestDetail.propTypes = {
 // ----------------------------------------------------------------------
 
 export default function RegistrationRequestDetail({ currentRequest, educationPlannerId }) {
+    const { user } = useAuthContext();
+
+    axios.defaults.headers.common.Authorization = `Bearer ${user.accessToken}`
 
     const dataFetchedRef = useRef(false);
 
@@ -278,6 +281,8 @@ export function PendingEPForm({ request, students, registeredCourses, schedules,
     const { user } = useAuthContext();
     const { enqueueSnackbar } = useSnackbar();
     const navigate = useNavigate();
+
+    axios.defaults.headers.common.Authorization = `Bearer ${user.accessToken}`
 
     // Firebase
     const firebaseApp = initializeApp(FIREBASE_API);
@@ -773,6 +778,9 @@ PendingOAForm.propTypes = {
 }
 
 export function PendingOAForm({ request, students, registeredCourses, schedules, hasSchedule, createdByEA }) {
+    const { user } = useAuthContext();
+
+    axios.defaults.headers.common.Authorization = `Bearer ${user.accessToken}`
 
     const {
         id,
@@ -853,11 +861,13 @@ export function PendingOAForm({ request, students, registeredCourses, schedules,
         setOpenCourseDialog(false);
     }
 
+    console.log(request)
+
     return (
         <>
             <Grid container spacing={3}>
                 <Grid item xs={12} md={5}>
-                    <Typography variant="h5">{`Status: Pending OA`}</Typography>
+                    <Typography variant="h5">{request.status === "Complete" ? 'Status: Complete' : 'Status: Pending OA'}</Typography>
                 </Grid>
                 <Grid item xs={12} md={12}>
                     <StudentSection courseType={request.courseType} students={students} />

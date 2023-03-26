@@ -107,6 +107,8 @@ export default function ScheduleRegistrationRequestPage() {
     const [currentRequest, setCurrentRequest] = useState();
     const dataFetchedRef = useRef(false);
 
+    axios.defaults.headers.common.Authorization = `Bearer ${user.accessToken}`
+
     const fetchRequest = () => {
         axios.get(`${HOG_API}/api/PrivateRegistrationRequest/Get/${id}`)
             .then((res) => setCurrentRequest(res.data.data))

@@ -1,16 +1,18 @@
 import { Helmet } from 'react-helmet-async';
-import { useState, useEffect,useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import axios from 'axios';
 // @mui
 import { Card, Container, Stack } from '@mui/material';
+// auth
+import { useAuthContext } from '../auth/useAuthContext';
 // components
-import axios from 'axios';
 import { useSettingsContext } from '../components/settings';
 import CustomBreadcrumbs from '../components/custom-breadcrumbs';
 import LoadingScreen from '../components/loading-screen/LoadingScreen';
 // routes
 import { PATH_ACCOUNT } from '../routes/paths';
 // Table
-import {TeacherList} from '../sections/dashboard/all-students-list';
+import { TeacherList } from '../sections/dashboard/all-students-list';
 // API
 import { HOG_API } from '../config';
 
@@ -18,9 +20,12 @@ import { HOG_API } from '../config';
 
 export default function SearchTeacherPage() {
     const { themeStretch } = useSettingsContext();
+    const { user } = useAuthContext();
 
     const dataFetchedRef = useRef(false);
     const [teacherTableData, setTeacherTableData] = useState();
+
+    axios.defaults.headers.common.Authorization = `Bearer ${user.accessToken}`
 
     const fetchData = async () => {
         return axios.get(`${HOG_API}/api/Teacher/Get`)
@@ -33,9 +38,6 @@ export default function SearchTeacherPage() {
                 console.error(error);
             });
     }
-
-
-
 
     useEffect(() => {
         if (dataFetchedRef.current) return;

@@ -9,7 +9,11 @@ import {
     DialogActions,
     Button
 } from '@mui/material';
+// auth
+import { useAuthContext } from '../auth/useAuthContext';
+// components
 import { useSnackbar } from './snackbar';
+//
 import { HOG_API } from '../config';
 
 ResetPasswordDialog.propTypes = {
@@ -21,6 +25,9 @@ ResetPasswordDialog.propTypes = {
 export default function ResetPasswordDialog({ open, onClose, email }) {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const { enqueueSnackbar } = useSnackbar();
+    const { user } = useAuthContext();
+
+    axios.defaults.headers.common.Authorization = `Bearer ${user.accessToken}`
 
     const handleResetPassword = async () => {
         setIsSubmitting(true);

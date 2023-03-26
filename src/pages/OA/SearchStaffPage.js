@@ -1,9 +1,11 @@
 import { Helmet } from 'react-helmet-async';
 import { useState, useEffect, useRef } from 'react';
+import axios from 'axios';
 // @mui
 import { Card, Container, Stack } from '@mui/material';
+// auth
+import { useAuthContext } from '../../auth/useAuthContext';
 // components
-import axios from 'axios';
 import { useSettingsContext } from '../../components/settings';
 import CustomBreadcrumbs from '../../components/custom-breadcrumbs';
 import LoadingScreen from '../../components/loading-screen/LoadingScreen';
@@ -18,6 +20,7 @@ import { HOG_API } from '../../config';
 
 export default function SearchStaffPage() {
     const { themeStretch } = useSettingsContext();
+    const { user } = useAuthContext();
 
     const dataFetchedRef = useRef(false);
     const [epStaff, setEpStaff] = useState();
@@ -36,49 +39,12 @@ export default function SearchStaffPage() {
     //         });
     // }
 
+    axios.defaults.headers.common.Authorization = `Bearer ${user.accessToken}`
+
     const fetchData = async () => {
         await axios.get(`${HOG_API}/api/Staff/Get`)
             .then((res) => setAllStaffs(res.data.data))
             .catch((error) => console.error(error))
-        // await axios.get(`${HOG_API}/api/EP/Get`)
-        //     .then(async (resEP) => {
-        //         const allEPs = resEP.data.data
-        //         const formattedEPs = allEPs.map((ep) => ({
-        //             id: ep.id,
-        //             fName: ep.fName,
-        //             lName: ep.lName,
-        //             email: ep.email,
-        //             firebaseId: ep.firebaseId,
-        //             fullName: ep.fullName,
-        //             nickname: ep.nickname,
-        //             line: ep.line,
-        //             phone: ep.phone,
-        //             role: "EP"
-        //         }))
-        //         await axios.get(`${HOG_API}/api/EA/Get`)
-        //             .then(resEA => {
-        //                 const allEAs = resEA.data.data
-        //                 const formattedEAs = allEAs.map((ea) => ({
-        //                     id: ea.id,
-        //                     fName: ea.fName,
-        //                     lName: ea.lName,
-        //                     email: ea.email,
-        //                     firebaseId: ea.firebaseId,
-        //                     fullName: ea.fullName,
-        //                     nickname: ea.nickname,
-        //                     line: ea.line,
-        //                     phone: ea.phone,
-        //                     role: "EA"
-        //                 }))
-        //                 setAllStaffs([...formattedEPs, ...formattedEAs])
-        //             })
-        //             .catch(error => {
-        //                 console.log(error);
-        //             });
-        //     })
-        //     .catch(error => {
-        //         console.log(error);
-        //     });
     }
 
     useEffect(() => {
@@ -92,7 +58,7 @@ export default function SearchStaffPage() {
         return <LoadingScreen />;
     }
 
-    // console.log(allStaffs)
+    console.log(allStaffs)
 
     return (
         <>

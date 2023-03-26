@@ -45,6 +45,8 @@ import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import InfoIcon from '@mui/icons-material/Info';
 import CloseIcon from '@mui/icons-material/Close';
+// auth
+import { useAuthContext } from '../../../auth/useAuthContext';
 // components
 import { useSnackbar } from '../../../components/snackbar';
 import Scrollbar from '../../../components/scrollbar/Scrollbar';
@@ -57,7 +59,6 @@ import { ViewCourseDialog } from '../ViewCourseDialog';
 //
 import { fDate } from '../../../utils/formatTime';
 import { HOG_API, FIREBASE_API } from '../../../config';
-import { useAuthContext } from '../../../auth/useAuthContext';
 
 // ----------------------------------------------------------------------
 
@@ -68,11 +69,15 @@ CompleteRegistrationRequest.propTypes = {
 // ----------------------------------------------------------------------
 
 export default function CompleteRegistrationRequest({ currentRequest }) {
+    const { user } = useAuthContext();
     const dataFetchedRef = useRef(false);
+
     const [selectedCourse, setSelectedCourse] = useState({});
     const [openCourseDialog, setOpenCourseDialog] = useState(false);
     const [schedules, setSchedules] = useState([]);
     const [createdByEA, setCreatedByEA] = useState({});
+
+    axios.defaults.headers.common.Authorization = `Bearer ${user.accessToken}`
 
     const {
         request,

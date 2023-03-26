@@ -39,6 +39,8 @@ import {
 } from '@mui/material';
 // utils
 import { fTimestamp, fDate } from '../../utils/formatTime';
+// auth
+import { useAuthContext } from '../../auth/useAuthContext';
 // components
 import Label from '../../components/label';
 import Iconify from '../../components/iconify';
@@ -64,6 +66,9 @@ import { EditClassDialog } from '../../sections/dashboard/EditClassDialog';
 
 export default function DailyCalendarPage() {
     const { themeStretch } = useSettingsContext();
+    const { user } = useAuthContext();
+
+    axios.defaults.headers.common.Authorization = `Bearer ${user.accessToken}`
 
     const [classes, setClasses] = useState([]);
     const dataFetchedRef = useRef(false);
@@ -170,6 +175,9 @@ export function ClassList({ classes }) {
     const { themeStretch } = useSettingsContext();
     const navigate = useNavigate();
     const dataFetchedRef = useRef(false);
+    const { user } = useAuthContext();
+
+    axios.defaults.headers.common.Authorization = `Bearer ${user.accessToken}`
 
     const {
         dense,

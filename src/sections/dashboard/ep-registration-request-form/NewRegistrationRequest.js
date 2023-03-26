@@ -35,6 +35,8 @@ import {
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
+// auth
+import { useAuthContext } from '../../../auth/useAuthContext';
 // components
 import { useSnackbar } from '../../../components/snackbar';
 import FormProvider, { RHFSelect, RHFUpload, RHFTextField, RHFRadioGroup, RHFCheckbox } from '../../../components/hook-form';
@@ -182,6 +184,9 @@ NewPrivateRequestForm.propTypes = {
 export function NewPrivateRequestForm({ studentList, educationPlannerId }) {
     const { enqueueSnackbar } = useSnackbar();
     const navigate = useNavigate();
+    const { user } = useAuthContext();
+
+    axios.defaults.headers.common.Authorization = `Bearer ${user.accessToken}`
 
     const NewRequestSchema = Yup.object().shape({
         courseType: Yup.string().required('Course type is required'),
@@ -421,6 +426,9 @@ NewSemiPrivateRequestForm.propTypes = {
 export function NewSemiPrivateRequestForm({ studentList, educationPlannerId }) {
     const { enqueueSnackbar } = useSnackbar();
     const navigate = useNavigate();
+    const { user } = useAuthContext();
+    
+    axios.defaults.headers.common.Authorization = `Bearer ${user.accessToken}`
 
     const NewRequestSchema = Yup.object().shape({
         courseType: Yup.string().required('Course type is required'),

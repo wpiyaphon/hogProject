@@ -8,6 +8,7 @@ import { Table, Tooltip, TableRow, TableBody, TableCell, IconButton, TableContai
 // components
 import Iconify from '../../../components/iconify';
 import Scrollbar from '../../../components/scrollbar';
+import Label from '../../../components/label';
 import {
   useTable,
   getComparator,
@@ -24,7 +25,8 @@ const TABLE_HEAD = [
   { id: 'id', label: 'Teacher ID', align: 'left' },
   { id: 'fullname', label: 'Fullname  ', align: 'left' },
   { id: 'nickname', label: 'Nickname  ', align: 'left' },
-  { id: 'details', label: ' ', align: 'left' },
+  { id: 'status', label: 'Status', align: 'left' },
+  { id: '' },
 ];
 
 // ----------------------------------------------------------------------
@@ -32,7 +34,7 @@ const TABLE_HEAD = [
 TeacherList.propTypes = {
   teacherTableData: PropTypes.array,
 }
-export default function TeacherList({teacherTableData}) {
+export default function TeacherList({ teacherTableData }) {
   const {
     dense,
     page,
@@ -142,13 +144,22 @@ export default function TeacherList({teacherTableData}) {
                   hover
                   key={row.id}
                   onClick={() => navigate(`/account/teacher-management/teacher/${parseInt(row.id, 10)}`)}
-                  sx={{cursor: "pointer"}}
-                  >
+                  sx={{ cursor: "pointer" }}
+                >
                   <TableCell align="left" > {row.id} </TableCell>
                   <TableCell align="left">{row.fName} {row.lName}</TableCell>
                   <TableCell align="left">{row.nickname}</TableCell>
+                  <TableCell align="left">
+                    <Label
+                      variant="soft"
+                      color={(row.isActive && 'success') || 'error'}
+                      sx={{ textTransform: 'capitalize' }}
+                    >
+                      {row.isActive ? 'Active' : 'Inactive'}
+                    </Label>
+                  </TableCell>
                   <TableCell align="right">
-                    <Iconify icon="ic:chevron-right" sx={{mr: 5}} />
+                    <Iconify icon="ic:chevron-right" sx={{ mr: 5 }} />
                   </TableCell>
 
                 </TableRow>
@@ -186,7 +197,7 @@ function applyFilter({ inputData, comparator, filterValue }) {
   inputData = stabilizedThis.map((el) => el[0]);
 
   if (filterValue) {
-    inputData = inputData.filter((user) => user.fName.toLowerCase().indexOf(filterValue.toLowerCase()) !== -1 ||user.lName.toLowerCase().indexOf(filterValue.toLowerCase()) !== -1 || user.nickname.toLowerCase().indexOf(filterValue.toLowerCase()) !== -1 || user.id === parseInt(filterValue, 10));
+    inputData = inputData.filter((user) => user.fName.toLowerCase().indexOf(filterValue.toLowerCase()) !== -1 || user.lName.toLowerCase().indexOf(filterValue.toLowerCase()) !== -1 || user.nickname.toLowerCase().indexOf(filterValue.toLowerCase()) !== -1 || user.id === parseInt(filterValue, 10));
   }
 
   return inputData;

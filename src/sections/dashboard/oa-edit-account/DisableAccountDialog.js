@@ -9,8 +9,9 @@ import { Stack, Typography, Dialog, Button, DialogTitle, DialogContent, DialogAc
 // components
 import { useSnackbar } from '../../../components/snackbar';
 import { HOG_API } from '../../../config';
+import { useAuthContext } from '../../../auth/useAuthContext';
 
-DeleteAccountDialog.propTypes = {
+DisableAccountDialog.propTypes = {
     accountId: PropTypes.string,
     accountRole: PropTypes.string,
     accountName: PropTypes.string,
@@ -18,8 +19,12 @@ DeleteAccountDialog.propTypes = {
     onClose: PropTypes.func,
 }
 
-export default function DeleteAccountDialog({ accountId, accountRole, accountName, open, onClose }) {
+export default function DisableAccountDialog({ accountId, accountRole, accountName, open, onClose }) {
     const { enqueueSnackbar } = useSnackbar();
+    const { user } = useAuthContext();
+
+    axios.defaults.headers.common.Authorization = `Bearer ${user.accessToken}`
+
     const navigate = useNavigate();
     const [isSubmitting, setIsSubmitting] = useState(false);
     const element = document.querySelector('#delete-request-error-handling .status');
@@ -30,29 +35,18 @@ export default function DeleteAccountDialog({ accountId, accountRole, accountNam
         try {
             // console.log(accountId, accountRole, accountName)
             if (accountRole === 'Teacher') {
-                await axios.delete(`${HOG_API}/api/Teacher/Delete/${accountId}`)
+                await axios.delete(`${HOG_API}/api/Teacher/Disable/${accountId}`)
                     .catch((error) => {
                         throw error;
                     })
-                enqueueSnackbar("Deleted the account successfully", { variant: 'success' });
+                enqueueSnackbar("Disable the account successfully", { variant: 'success' });
                 navigate('/account/teacher-management/teacher')
-            }
-
-            if (accountRole === 'Education Admin') {
-                await axios.delete(`${HOG_API}/api/EA/Delete/${accountId}`)
+            } else {
+                await axios.delete(`${HOG_API}/api/Staff/Disable/${accountId}`)
                     .catch((error) => {
                         throw error;
                     })
-                enqueueSnackbar("Deleted the account successfully", { variant: 'success' });
-                navigate('/account/staff-management/staff')
-            }
-
-            if (accountRole === 'Education Planner') {
-                await axios.delete(`${HOG_API}/api/EP/Delete/${accountId}`)
-                    .catch((error) => {
-                        throw error;
-                    })
-                enqueueSnackbar("Deleted the account successfully", { variant: 'success' });
+                enqueueSnackbar("Disable the account successfully", { variant: 'success' });
                 navigate('/account/staff-management/staff')
             }
         } catch (error) {
@@ -66,14 +60,14 @@ export default function DeleteAccountDialog({ accountId, accountRole, accountNam
 
 
     return (
-        <Dialog maxWidth="md" open={open} onClose={onClose}>
+        <Dialog fullWidth maxWidth="sm" open={open} onClose={onClose}>
             <DialogTitle>
                 <Stack direction="row" alignItems="center" justifyContent="flex-start" spacing={2}>
-                    <Typography variant='h4'>Delete Account?</Typography>
+                    <Typography variant='h4'>Disable Account?</Typography>
                 </Stack>
             </DialogTitle>
             <DialogContent>
-                {`Once deleted, ${accountName}'s account will be permanently deleted and no longer be accessible.`}
+                {`Once disabled, ${accountName}'s account will no longer be accessible.`}
             </DialogContent>
             <DialogActions>
                 <Button
@@ -90,7 +84,7 @@ export default function DeleteAccountDialog({ accountId, accountRole, accountNam
                     loading={isSubmitting}
                     onClick={handleDelete}
                 >
-                    Delete
+                    Disable
                 </LoadingButton>
             </DialogActions>
         </Dialog>

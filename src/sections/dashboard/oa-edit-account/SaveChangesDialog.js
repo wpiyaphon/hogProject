@@ -8,6 +8,7 @@ import { Stack, Typography, Dialog, Button, DialogTitle, DialogContent, DialogAc
 // components
 import { useSnackbar } from '../../../components/snackbar';
 import { HOG_API } from '../../../config';
+import { useAuthContext } from '../../../auth/useAuthContext';
 
 SaveChangesDialog.propTypes = {
     data: PropTypes.object,
@@ -18,7 +19,10 @@ SaveChangesDialog.propTypes = {
 
 export default function SaveChangesDialog({ data, open, onClose, accountRole }) {
     const { enqueueSnackbar } = useSnackbar();
+    const { user } = useAuthContext();
     const navigate = useNavigate();
+
+    axios.defaults.headers.common.Authorization = `Bearer ${user.accessToken}`
 
     const [isSubmitting, setIsSubmitting] = useState(false);
 

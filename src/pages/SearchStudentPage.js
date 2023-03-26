@@ -25,8 +25,6 @@ export default function SearchStudentPage() {
     const dataFetchedRef = useRef(false);
     const [studentTableData, setStudentTableData] = useState();
 
-    // console.log(user, 'user')
-
     const config = { headers: { Authorization: `Bearer ${user.accessToken}`} }
 
     const fetchData = async () => {

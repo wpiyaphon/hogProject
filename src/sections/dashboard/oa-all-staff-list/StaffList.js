@@ -8,6 +8,7 @@ import { Table, Tooltip, TableRow, TableBody, TableCell, IconButton, TableContai
 // components
 import Iconify from '../../../components/iconify';
 import Scrollbar from '../../../components/scrollbar';
+import Label from '../../../components/label';
 import {
   useTable,
   getComparator,
@@ -27,7 +28,8 @@ const TABLE_HEAD = [
   { id: 'fullname', label: 'Fullname', align: 'left' },
   { id: 'nickname', label: 'Nickname', align: 'left' },
   { id: 'role', label: 'Role', align: 'left' },
-  { id: 'details', label: '', align: 'left' },
+  { id: 'status', label: 'Status', align: 'left' },
+  { id: '' },
 ];
 
 // ----------------------------------------------------------------------
@@ -155,6 +157,15 @@ export default function StaffList({ allStaffs }) {
                   <TableCell align="left">{row.fName} {row.lName}</TableCell>
                   <TableCell align="left">{row.nickname}</TableCell>
                   <TableCell align="left">{row.role}</TableCell>
+                  <TableCell align="left">
+                    <Label
+                      variant="soft"
+                      color={(row.isActive && 'success') || 'error'}
+                      sx={{ textTransform: 'capitalize' }}
+                    >
+                      {row.isActive ? 'Active' : 'Inactive'}
+                    </Label>
+                  </TableCell>
                   <TableCell align="right">
                     <Iconify icon="ic:chevron-right" sx={{ mr: 5 }} />
                   </TableCell>

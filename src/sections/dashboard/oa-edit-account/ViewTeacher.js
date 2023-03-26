@@ -9,7 +9,8 @@ import { Box, Card, Grid, Stack, Typography, Button, MenuItem } from '@mui/mater
 // components
 import FormProvider, { RHFTextField, RHFCheckbox, RHFSelect } from '../../../components/hook-form';
 //
-import DeleteAccountDialog from './DeleteAccountDialog';
+import DisableAccountDialog from './DisableAccountDialog';
+import ActivateAccountDialog from './ActivateAccountDialog';
 import ResetPasswordDialog from '../../../components/ResetPasswordDialog';
 
 // ----------------------------------------------------------------------
@@ -23,6 +24,7 @@ export default function ViewTeacher({ currentTeacher }) {
 
     const [openResetPasswordDialog, setOpenResetPasswordDialog] = useState(false);
     const [openDeleteAccountDialog, setOpenDeleteAccountDialog] = useState(false);
+    const [openActivateAccountDialog, setOpenActivateAccountDialog] = useState(false);
 
     // const defaultValues = {
     //     role: 'Teacher',
@@ -65,6 +67,7 @@ export default function ViewTeacher({ currentTeacher }) {
     const handleClickEdit = () => {
         navigate(`/account/teacher-management/teacher/${currentTeacher.id}/edit`);
     };
+    console.log(currentTeacher)
 
     return (
         <FormProvider methods={methods}>
@@ -124,13 +127,23 @@ export default function ViewTeacher({ currentTeacher }) {
 
                     <Grid item xs={12} md={12} sx={{ mt: 2 }}>
                         <Stack direction="row" justifyContent="space-between" alignItems="center">
-                            <Button
-                                variant="contained"
-                                color="error"
-                                onClick={() => setOpenDeleteAccountDialog(true)}
-                            >
-                                Delete account
-                            </Button>
+                            {currentTeacher.isActive ? (
+                                <Button
+                                    variant="contained"
+                                    color='error'
+                                    onClick={() => setOpenDeleteAccountDialog(true)}
+                                >
+                                    Disable Account
+                                </Button>
+                            ) : (
+                                <Button
+                                    variant="contained"
+                                    color='success'
+                                    onClick={() => setOpenActivateAccountDialog(true)}
+                                >
+                                    Activate Account
+                                </Button>
+                            )}
                             <Stack direction="row" justifyContent="flex-end" alignItems="center" spacing={1}>
                                 <Button
                                     variant="outlined"
@@ -158,13 +171,22 @@ export default function ViewTeacher({ currentTeacher }) {
                 email={currentTeacher.email}
             />
 
-            <DeleteAccountDialog
+            <DisableAccountDialog
                 accountId={currentTeacher.id}
                 accountRole={currentTeacher.role}
                 accountName={currentTeacher.fName}
                 open={openDeleteAccountDialog}
                 onClose={() => setOpenDeleteAccountDialog(false)}
             />
+
+            <ActivateAccountDialog
+                accountId={currentTeacher.id}
+                accountRole={currentTeacher.role}
+                accountName={currentTeacher.fName}
+                open={openActivateAccountDialog}
+                onClose={() => setOpenActivateAccountDialog(false)}
+            />
+
         </FormProvider >
     )
 }

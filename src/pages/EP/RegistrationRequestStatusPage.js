@@ -5,6 +5,8 @@ import axios from 'axios';
 // @mui
 import { Container } from '@mui/material';
 import { PATH_REGISTRATION } from '../../routes/paths';
+// auth
+import { useAuthContext } from '../../auth/useAuthContext';
 // components
 import LoadingScreen from '../../components/loading-screen/LoadingScreen';
 import CustomBreadcrumbs from '../../components/custom-breadcrumbs';
@@ -17,8 +19,11 @@ import { HOG_API } from '../../config';
 
 export default function RegistrationRequestStatusPage() {
     const { themeStretch } = useSettingsContext();
+    const { user } = useAuthContext();
     const [registrationRequests, setRegistrationRequests] = useState();
     const dataFetchedRef = useRef(false);
+
+    axios.defaults.headers.common.Authorization = `Bearer ${user.accessToken}`
 
     const fetchRequests = async () => {
         try {

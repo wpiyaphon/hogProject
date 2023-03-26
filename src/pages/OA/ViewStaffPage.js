@@ -4,6 +4,8 @@ import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 // @mui
 import { Container } from '@mui/material';
+// auth
+import { useAuthContext } from '../../auth/useAuthContext';
 // components
 import LoadingScreen from '../../components/loading-screen/LoadingScreen';
 import CustomBreadcrumbs from '../../components/custom-breadcrumbs';
@@ -17,10 +19,14 @@ import { HOG_API } from '../../config';
 
 export default function NewAccountPage() {
     const { themeStretch } = useSettingsContext();
+    const { user } = useAuthContext();
     const { id } = useParams();
+
     const [currentStaff, setCurrentStaff] = useState();
     const [currentRole, setCurrentRole] = useState("");
     const dataFetchedRef = useRef(false);
+
+    axios.defaults.headers.common.Authorization = `Bearer ${user.accessToken}`
 
     const fetchData = async () => {
         await axios.get(`${HOG_API}/api/Staff/Get/${id}`)

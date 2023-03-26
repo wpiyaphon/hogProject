@@ -45,6 +45,7 @@ import {
 // sections
 import RegistrationTableToolbar from './RegistrationTableToolbar';
 import { HOG_API } from '../../../config';
+import { useAuthContext } from '../../../auth/useAuthContext';
 
 // ----------------------------------------------------------------------
 
@@ -76,9 +77,12 @@ RegistrationRequestStatusList.propTypes = {
 }
 
 export default function RegistrationRequestStatusList({ registrationRequests }) {
+  const { user } = useAuthContext();
   const { themeStretch } = useSettingsContext();
   const dataFetchedRef = useRef(false);
   const navigate = useNavigate();
+
+  axios.defaults.headers.common.Authorization = `Bearer ${user.accessToken}`
 
   const {
     dense,

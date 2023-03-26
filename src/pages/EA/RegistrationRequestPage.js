@@ -23,6 +23,8 @@ export default function RegistrationRequestPage() {
     const dataFetchedRef = useRef(false);
     const [privateRegistrationRequest, setPrivateRegistrationRequest] = useState();
 
+    axios.defaults.headers.common.Authorization = `Bearer ${user.accessToken}`
+
     const fetchData = async () => {
         return axios.get(`${HOG_API}/api/PrivateRegistrationRequest/Get`)
             .then(response => {

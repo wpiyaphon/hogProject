@@ -20,6 +20,8 @@ import {
   TableRow,
   TableCell, createTheme, ThemeProvider,
 } from '@mui/material';
+// auth
+import { useAuthContext } from '../../../auth/useAuthContext';
 // components
 import Label from '../../../components/label';
 import Iconify from '../../../components/iconify';
@@ -99,11 +101,14 @@ RegistrationRequestStatusList.propTypes = {
 };
 
 export default function RegistrationRequestStatusList({ privateRegistrationRequest, educationAdminId }) {
+  const { user } = useAuthContext();
   // console.log('RegistrationRequestStatusList', privateRegistrationRequest);
   const { enqueueSnackbar } = useSnackbar();
   const { themeStretch } = useSettingsContext();
   const navigate = useNavigate();
   const dataFetchedRef = useRef(false);
+
+  axios.defaults.headers.common.Authorization = `Bearer ${user.accessToken}`
 
   const {
     dense,
@@ -125,23 +130,23 @@ export default function RegistrationRequestStatusList({ privateRegistrationReque
 
     privateRegistrationRequest.map((request) => {
       return axios.get(`${HOG_API}/api/Staff/Get/${request.request.takenByEPId}`)
-      .then((res) => {
-        const newData = {
-          id: request.request.id,
-          requestDate: fDate(request.request.dateCreated, 'dd-MMM-yyyy'),
-          courseType: request.request.courseType,
-          section: request.request.section,
-          registeredCourses: request.information.length,
-          requestedBy: `${res.data.data.fName} (${res.data.data.nickname})`,
-          takenByEPId: request.request.takenByEPId,
-          takenByEAId: request.request.takenByEAId,
-          eaStatus: request.request.eaStatus,
-          status: request.request.status,
-          receipt: request.request.paymentStatus,
-          epRemark1: request.request.epRemark1,
-        }
-        setTableData(tableData => [...tableData, newData])
-      })
+        .then((res) => {
+          const newData = {
+            id: request.request.id,
+            requestDate: fDate(request.request.dateCreated, 'dd-MMM-yyyy'),
+            courseType: request.request.courseType,
+            section: request.request.section,
+            registeredCourses: request.information.length,
+            requestedBy: `${res.data.data.fName} (${res.data.data.nickname})`,
+            takenByEPId: request.request.takenByEPId,
+            takenByEAId: request.request.takenByEAId,
+            eaStatus: request.request.eaStatus,
+            status: request.request.status,
+            receipt: request.request.paymentStatus,
+            epRemark1: request.request.epRemark1,
+          }
+          setTableData(tableData => [...tableData, newData])
+        })
 
       // return {
       //   id: request.request.id,

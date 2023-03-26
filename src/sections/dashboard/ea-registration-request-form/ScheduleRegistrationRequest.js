@@ -44,6 +44,8 @@ import AddIcon from '@mui/icons-material/Add';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 // utils
 import { fDate } from '../../../utils/formatTime'
+// auth
+import { useAuthContext } from '../../../auth/useAuthContext';
 // components
 import { useSnackbar } from '../../../components/snackbar';
 import Scrollbar from '../../../components/scrollbar/Scrollbar';
@@ -59,9 +61,12 @@ ScheduleRegistrationRequest.propTypes = {
 }
 
 export default function ScheduleRegistrationRequest({ currentRequest, educationAdminId }) {
+    const { user } = useAuthContext();
 
     const { enqueueSnackbar } = useSnackbar();
     const navigate = useNavigate();
+
+    axios.defaults.headers.common.Authorization = `Bearer ${user.accessToken}`
 
     // Prevent user to submit the form unless all schedules are generated
     const [createdCourses, setCreatedCourses] = useState([]);
@@ -816,17 +821,17 @@ export function CreateScheduleDialog({ open, close, courseType, selectedCourse, 
                     </Grid>
 
                     <Grid item xs={12} md={7}>
-                            <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 1, mr: 1.5 }}>
-                                <Typography variant="h6">
-                                    Classes & Schedules
-                                </Typography>
+                        <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 1, mr: 1.5 }}>
+                            <Typography variant="h6">
+                                Classes & Schedules
+                            </Typography>
 
-                                <Button variant="text" color="primary" onClick={() => setOpenAddClassDialog(true)}>
-                                    <AddIcon sx={{ mr: 0.5 }} /> Add Class
-                                </Button>
+                            <Button variant="text" color="primary" onClick={() => setOpenAddClassDialog(true)}>
+                                <AddIcon sx={{ mr: 0.5 }} /> Add Class
+                            </Button>
 
-                            </Stack>
-                            <Scrollbar sx={{ maxHeight: '28.1rem', pr: 1.5 }}>
+                        </Stack>
+                        <Scrollbar sx={{ maxHeight: '28.1rem', pr: 1.5 }}>
                             {!!schedules.length && (
                                 <TableContainer component={Paper} >
                                     <Table sx={{ width: '100%' }}>
@@ -878,7 +883,7 @@ export function CreateScheduleDialog({ open, close, courseType, selectedCourse, 
                         </Scrollbar>
                     </Grid>
 
-                    <Grid container item justifyContent="flex-end" sx={{mr: 1, mb: 2}}>
+                    <Grid container item justifyContent="flex-end" sx={{ mr: 1, mb: 2 }}>
                         <Button variant="contained" size="large" disabled={accumulatedHours() !== selectedCourse.totalHour} onClick={handleCreate}>
                             {checkAlreadyCreated(completeCourses, selectedCourse) ? 'Save Changes' : 'Create'}
                         </Button>

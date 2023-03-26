@@ -79,6 +79,8 @@ export default function ViewEditTeacherCourse({ currentTeacher, currentCourses, 
     const { user } = useAuthContext();
     const navigate = useNavigate();
 
+    axios.defaults.headers.common.Authorization = `Bearer ${user.accessToken}`
+
     const allCourses = [...currentCourses, ...pendingCourses]
 
     const {

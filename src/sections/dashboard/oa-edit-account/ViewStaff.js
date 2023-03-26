@@ -9,7 +9,8 @@ import { Card, Grid, Stack, Typography, Button } from '@mui/material';
 import FormProvider, { RHFTextField } from '../../../components/hook-form';
 import ResetPasswordDialog from '../../../components/ResetPasswordDialog';
 //
-import DeleteAccountDialog from './DeleteAccountDialog';
+import DisableAccountDialog from './DisableAccountDialog';
+import ActivateAccountDialog from './ActivateAccountDialog';
 
 // ----------------------------------------------------------------------
 ViewStaff.propTypes = {
@@ -21,6 +22,7 @@ export default function ViewStaff({ currentStaff }) {
 
     const [openResetPasswordDialog, setOpenResetPasswordDialog] = useState(false);
     const [openDeleteAccountDialog, setOpenDeleteAccountDialog] = useState(false);
+    const [openActivateAccountDialog, setOpenActivateAccountDialog] = useState(false);
 
     const defaultValues = {
         role: currentStaff?.role || '',
@@ -39,6 +41,8 @@ export default function ViewStaff({ currentStaff }) {
     const handleClickEdit = () => {
         navigate(`/account/staff-management/staff/${currentStaff.id}/edit`);
     };
+
+    // console.log(currentStaff);
 
     return (
         <FormProvider methods={methods}>
@@ -74,13 +78,24 @@ export default function ViewStaff({ currentStaff }) {
 
                     <Grid item xs={12} md={12} sx={{ mt: 2 }}>
                         <Stack direction="row" justifyContent="space-between" alignItems="center">
-                            <Button
-                                variant="contained"
-                                color="error"
-                                onClick={() => setOpenDeleteAccountDialog(true)}
-                            >
-                                Delete account
-                            </Button>
+                            {currentStaff.isActive ? (
+                                <Button
+                                    variant="contained"
+                                    color='error'
+                                    onClick={() => setOpenDeleteAccountDialog(true)}
+                                >
+                                    Disable Account
+                                </Button>
+                            ) : (
+                                <Button
+                                    variant="contained"
+                                    color='success'
+                                    onClick={() => setOpenActivateAccountDialog(true)}
+                                >
+                                    Activate Account
+                                </Button>
+                            )}
+
                             <Stack direction="row" justifyContent="flex-end" alignItems="center" spacing={1}>
                                 <Button
                                     variant="outlined"
@@ -102,18 +117,26 @@ export default function ViewStaff({ currentStaff }) {
                 </Grid>
             </Card>
 
-            <ResetPasswordDialog 
+            <ResetPasswordDialog
                 open={openResetPasswordDialog}
                 onClose={() => setOpenResetPasswordDialog(false)}
                 email={currentStaff.email}
             />
 
-            <DeleteAccountDialog
+            <DisableAccountDialog
                 accountId={currentStaff.id.toString()}
                 accountRole={currentStaff.role}
                 accountName={currentStaff.fName}
                 open={openDeleteAccountDialog}
                 onClose={() => setOpenDeleteAccountDialog(false)}
+            />
+
+            <ActivateAccountDialog
+                accountId={currentStaff.id.toString()}
+                accountRole={currentStaff.role}
+                accountName={currentStaff.fName}
+                open={openActivateAccountDialog}
+                onClose={() => setOpenActivateAccountDialog(false)}
             />
         </FormProvider >
     )

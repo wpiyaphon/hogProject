@@ -81,6 +81,8 @@ export default function ViewEditStudentCourse({ currentStudent, currentCourses, 
 
     const allCourses = [...currentCourses, ...pendingCourses]
 
+    axios.defaults.headers.common.Authorization = `Bearer ${user.accessToken}`
+
     const {
         role
     } = user;

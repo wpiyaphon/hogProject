@@ -40,6 +40,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+// auth
+import { useAuthContext } from '../../auth/useAuthContext';
 // utils
 import { fDate } from '../../utils/formatTime'
 // components
@@ -65,6 +67,7 @@ AddClassDialog.propTypes = {
 }
 
 export function AddClassDialog({ open, onClose, onAdd, hourPerClass, fromDate, toDate, method, students, deletedClassList, edittedClassList, courseCustom = false }) {
+    const { user } = useAuthContext();
 
     const [isLoadingTime, setIsLoadingTime] = useState(false);
     const [isLoadingTeacher, setIsLoadingTeacher] = useState(false);
@@ -72,6 +75,8 @@ export function AddClassDialog({ open, onClose, onAdd, hourPerClass, fromDate, t
     const [availableTeacher, setAvailableTeacher] = useState();
 
     const [editDeleteClassWithId, setEditDeleteClassWithId] = useState([]);
+
+    axios.defaults.headers.common.Authorization = `Bearer ${user.accessToken}`
 
     useEffect(() => {
         if (deletedClassList !== undefined && deletedClassList.length > 0 || edittedClassList !== undefined && edittedClassList.length > 0) {

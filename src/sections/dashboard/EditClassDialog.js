@@ -40,6 +40,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+// auth
+import { useAuthContext } from '../../auth/useAuthContext';
 // utils
 import { fDate } from '../../utils/formatTime'
 // components
@@ -68,6 +70,9 @@ EditClassDialog.propTypes = {
 }
 
 export function EditClassDialog({ open, close, schedule, onEdit, onDelete, fromDate, toDate, students, courseCustom = false, deletedClassList, edittedClassList, isSubmitting, dailyCalendar }) {
+    const { user } = useAuthContext();
+
+    axios.defaults.headers.common.Authorization = `Bearer ${user.accessToken}`
 
     const METHOD_OPTIONS = [
         'Onsite', 'Online'

@@ -35,6 +35,8 @@ import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import CloseIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
+// auth
+import { useAuthContext } from '../../auth/useAuthContext';
 // utils
 import { fDate } from '../../utils/formatTime'
 import { useSnackbar } from '../../components/snackbar';
@@ -57,10 +59,13 @@ ViewEditScheduleDialog.propTypes = {
 }
 
 export function ViewEditScheduleDialog({ selectedCourse, selectedSchedules, selectedRequest, open, onClose, role, students }) {
-    // console.log(selectedSchedules)
+    const { user } = useAuthContext();
+
     const { enqueueSnackbar } = useSnackbar();
     const moment = extendMoment(Moment);
     const navigate = useNavigate();
+
+    axios.defaults.headers.common.Authorization = `Bearer ${user.accessToken}`
 
     const {
         courseType
@@ -93,12 +98,12 @@ export function ViewEditScheduleDialog({ selectedCourse, selectedSchedules, sele
         setSelectedStudents(students);
     }, [selectedSchedules])
 
-    console.log('selectedRequest',selectedRequest)
-    console.log('local', localSchedule);
+    // console.log('selectedRequest',selectedRequest)
+    // console.log('local', localSchedule);
 
     const handleAddClass = async (addedClass) => {
         // console.log(addedClass);
-        console.log('selectedStudents',selectedStudents);
+        // console.log('selectedStudents', selectedStudents);
         try {
             let hasConflict = false;
 

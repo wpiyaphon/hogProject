@@ -54,6 +54,7 @@ export default function NewAccountPage() {
         phone: teacher.phone,
         line: teacher.line,
         email: teacher.email,
+        isActive: teacher.isActive,
         workTimes: (() => {
             const workTimes = {
                 monday: {

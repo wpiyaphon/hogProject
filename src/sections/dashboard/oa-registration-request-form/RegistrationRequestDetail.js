@@ -70,10 +70,13 @@ RegistrationRequestDetail.propTypes = {
 // ----------------------------------------------------------------------
 
 export default function RegistrationRequestDetail({ currentRequest, currentPayments, officeAdminId }) {
+    const { user } = useAuthContext();
     const dataFetchedRef = useRef(false);
     const { enqueueSnackbar } = useSnackbar();
     const navigate = useNavigate();
     const [createdByEA, setCreatedByEA] = useState({});
+
+    axios.defaults.headers.common.Authorization = `Bearer ${user.accessToken}`
 
     const {
         request,
