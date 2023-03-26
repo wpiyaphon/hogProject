@@ -64,7 +64,7 @@ export default function StudentCourseList({ studentCourseData }) {
     onChangePage,
     onChangeRowsPerPage,
   } = useTable({
-    defaultOrderBy: 'id',
+    defaultOrderBy: 'studentId',
   });
 
   const [tableData, setTableData] = useState(studentCourseData);

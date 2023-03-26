@@ -35,14 +35,14 @@ export default function ActivateAccountDialog({ accountId, accountRole, accountN
         try {
             // console.log(accountId, accountRole, accountName)
             if (accountRole === 'Teacher') {
-                await axios.delete(`${HOG_API}/api/Teacher/Enable/${accountId}`)
+                await axios.get(`${HOG_API}/api/Teacher/Enable/${accountId}`)
                     .catch((error) => {
                         throw error;
                     })
                 enqueueSnackbar("Activate the account successfully", { variant: 'success' });
                 navigate('/account/teacher-management/teacher')
             } else {
-                await axios.delete(`${HOG_API}/api/Staff/Enable/${accountId}`)
+                await axios.get(`${HOG_API}/api/Staff/Enable/${accountId}`)
                     .catch((error) => {
                         throw error;
                     })

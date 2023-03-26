@@ -101,7 +101,7 @@ export default function RegistrationRequestStatusList({ registrationRequests }) 
     onChangeDense,
     onChangePage,
     onChangeRowsPerPage,
-  } = useTable({ defaultOrderBy: 'createDate' });
+  } = useTable({ defaultOrderBy: 'id' });
 
   const [tableData, setTableData] = useState([]);
 

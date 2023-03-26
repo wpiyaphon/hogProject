@@ -43,7 +43,10 @@ export default function SearchStaffPage() {
 
     const fetchData = async () => {
         await axios.get(`${HOG_API}/api/Staff/Get`)
-            .then((res) => setAllStaffs(res.data.data))
+            .then((res) => {
+                const filteredStaff = res.data.data.filter(staff => staff.id !== user.id);
+                setAllStaffs(filteredStaff)
+            })
             .catch((error) => console.error(error))
     }
 
@@ -57,8 +60,6 @@ export default function SearchStaffPage() {
     if (allStaffs === undefined) {
         return <LoadingScreen />;
     }
-
-    console.log(allStaffs)
 
     return (
         <>

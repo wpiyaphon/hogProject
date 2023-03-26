@@ -81,6 +81,7 @@ export default function DailyCalendarPage() {
                     if (data.length === 0) {
                         setClasses([])
                     } else {
+                        console.log(data);
                         data.map((eachSchedule) => (eachSchedule.classes.map((eachClass) => {
                             return setClasses(classes => [...classes, {
                                 id: eachClass.id,
@@ -196,7 +197,7 @@ export function ClassList({ classes }) {
         onChangeDense,
         onChangePage,
         onChangeRowsPerPage,
-    } = useTable({ defaultOrderBy: 'createDate' });
+    } = useTable({ defaultOrderBy: 'teacherNickname' });
 
     const [tableData, setTableData] = useState([]);
 
