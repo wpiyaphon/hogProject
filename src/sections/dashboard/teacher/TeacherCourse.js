@@ -15,7 +15,7 @@ TeacherCourse.propTypes = {
 };
 
 export default function TeacherCourse({ currentTeacher }) {
-    const [courses, setCourses] = useState(currentTeacher.teacherPrivateCourse.filter((eachCourse) => eachCourse.isActive));
+    const [courses, setCourses] = useState(currentTeacher.teacherPrivateCourse.filter((eachCourse) => eachCourse.paymentStatus === "Complete" && eachCourse.isActive));
     // console.log('current teacher',currentTeacher)
     const {
         teacherPrivateCourse,

@@ -55,7 +55,6 @@ export default function StudentCalendarPage() {
 
     studentCourse.forEach((currentCourse) => {
         if (!currentCourse.registeredCourse.isActive) return;
-        console.log(currentCourse)
         const course = {
             id: currentCourse.registeredCourse.id.toString(),
             course: currentCourse.registeredCourse.course,

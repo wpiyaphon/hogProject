@@ -15,7 +15,7 @@ StudentCourse.propTypes = {
 };
 
 export default function StudentCourse({ currentStudent }) {
-    const [courses, setCourses] = useState(currentStudent.studentPrivateCourse.filter((eachCourse) => eachCourse.isActive));
+    const [courses, setCourses] = useState(currentStudent.studentPrivateCourse.filter((eachCourse) => eachCourse.paymentStatus === "Complete" && eachCourse.isActive));
 
     const {
         studentPrivateCourse,

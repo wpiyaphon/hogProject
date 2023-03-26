@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { m } from 'framer-motion';
 // @mui
 import { TextField, InputAdornment, Container, Typography } from '@mui/material';
@@ -38,6 +38,11 @@ export default function StudentCalendar({ currentStudent }) {
     // console.log(real)
 
     const studentPrivateClass = currentStudent;
+
+    useEffect(() => {
+        const filteredClass = studentPrivateClass.filter(eachClass => eachClass.paymentStatus === 'Complete' && new Date(eachClass.date).getTime() === today.getTime())
+        setTodayClass(filteredClass)
+    }, [])
     // const { studentPrivateClass, studentGroupClass, studentPrivateCourse, studentGroupCourse } = currentStudent;
 
     const onKeyDown = (e) => {
