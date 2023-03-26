@@ -21,6 +21,8 @@ export default function CourseCard({ accountRole, eachCourse }) {
         paymentStatus,
     } = eachCourse
 
+    // console.log('eachCourse', eachCourse)
+
     const privateCourseLink = (accountRole === 'student' ? `/student-course/private-course/${id}` : `/teacher-course/private-course/${id}`)
     const groupCourseLink = (accountRole === 'student' ? `/student-course/group-course/${id}` : `/teacher-course/group-course/${id}`)
 
@@ -42,7 +44,7 @@ export default function CourseCard({ accountRole, eachCourse }) {
                             </Typography>
                             {accountRole === 'teacher' && (
                                 <Typography color="text.secondary" >
-                                    {section}
+                                    Section: {section}
                                 </Typography>
                             )}
                         </CardContent>

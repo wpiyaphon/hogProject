@@ -49,9 +49,12 @@ export default function ViewEditStudentCoursePage() {
         return axios.get(`${process.env.REACT_APP_HOG_API}/api/Student/Course/Get/${id}`, config)
             .then((res) => {
                 const data = res.data.data
+                // console.log('data',data);
                 const enabledCourses = data.filter((course) => course.registeredCourse.isActive === true);
-                const completePaymentCourses = enabledCourses.filter((course) => course.request.paymentStatus === 'Complete');
-                const pendingCourses = enabledCourses.filter((course) => course.request.paymentStatus === 'Pending');
+
+                // console.log('enabledCourses',enabledCourses);
+                const completePaymentCourses = enabledCourses.filter((course) => course.request.status === 'Complete');
+                const pendingCourses = enabledCourses.filter((course) => course.request.status === 'PendingEP' || course.request.status === 'PendingOA');
                 setPendingCourses(pendingCourses)
                 setCourses(completePaymentCourses)
             })
@@ -98,6 +101,8 @@ export default function ViewEditStudentCoursePage() {
             </>
         )
     }
+
+    console.log('pendingCourses', pendingCourses)
 
 
     return (

@@ -374,8 +374,6 @@ function applyFilter({
   filterRole,
 }) {
   const stabilizedThis = inputData.map((el, index) => [el, index]);
-
-  console.log('before', inputData)
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
     // console.log(a[0].id, b[0].id)
@@ -385,8 +383,6 @@ function applyFilter({
   });
 
   inputData = stabilizedThis.map((el) => el[0]);
-
-  console.log('after', inputData)
   // if (filterName) {
   //   inputData = inputData.filter((request) => request.id.toLowerCase().indexOf(filterName.toLowerCase()) !== -1 || request.section.toLowerCase().indexOf(filterName.toLowerCase()) !== -1 || request.courseType.toLowerCase().indexOf(filterName.toLowerCase()) !== -1);
   // }

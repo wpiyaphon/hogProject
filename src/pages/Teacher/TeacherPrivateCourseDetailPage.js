@@ -36,7 +36,7 @@ export default function TeacherPrivateCourseDetailPage() {
     const [teacherCourse, setTeacherCourse] = useState();
 
     const fetchClass = async () => {
-        return axios.get(`${process.env.REACT_APP_HOG_API}/api/Teacher/Course/Get/${user.id}`, config)
+        return axios.get(`${process.env.REACT_APP_HOG_API}/api/Teacher/Course/Get/Me`, config)
             .then((res) => {
                 // console.log('res', res);
                 const data = res.data.data
@@ -71,6 +71,7 @@ export default function TeacherPrivateCourseDetailPage() {
     }
 
     const today = new Date();
+    today.setHours(0, 0, 0, 0);
 
     const currentclasses = currentcourse.classes;
 
@@ -97,7 +98,7 @@ export default function TeacherPrivateCourseDetailPage() {
           classNo: (index + 1),
           date: eachClass.date,
           fromTime: eachClass.fromTime,
-          attendanceStatus: eachClass.teacherPrivateClass.status === 'Complete' ? 'Complete' : new Date(eachClass.date) < today ? 'Incomplete' : 'None', // include attendance status for this class
+          attendanceStatus: eachClass.teacherPrivateClass.status === 'Complete' ? 'Complete' : new Date(eachClass.date).getTime() < today.getTime() ? 'Incomplete' : 'None', // include attendance status for this class
           toTime: eachClass.toTime,
           room: eachClass.room,
           section: course.section,

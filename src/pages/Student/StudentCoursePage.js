@@ -20,8 +20,8 @@ export default function StudentCoursePage() {
     const navigate = useNavigate();
     const { themeStretch } = useSettingsContext();
 
-    const {user} = useAuthContext();
-    const config = { headers: { Authorization: `Bearer ${user.accessToken}`} }
+    const { user } = useAuthContext();
+    const config = { headers: { Authorization: `Bearer ${user.accessToken}` } }
 
     // console.log(userId)
     const dataFetchedRef = useRef(false);
@@ -30,7 +30,7 @@ export default function StudentCoursePage() {
     const [studentCourse, setStudentCourse] = useState();
 
     const fetchStudent = async () => {
-        return axios.get(`${process.env.REACT_APP_HOG_API}/api/Student/Get/${user.id}`,config)
+        return axios.get(`${process.env.REACT_APP_HOG_API}/api/Student/Get/Me`, config)
             .then((res) => {
                 // console.log('res', res);
                 const data = res.data.data
@@ -41,8 +41,8 @@ export default function StudentCoursePage() {
     }
 
     const fetchCourse = async () => {
-        return axios.get(`${process.env.REACT_APP_HOG_API}/api/Student/Course/Get/${user.id}`,config)
-        // return axios.get(`${process.env.REACT_APP_HOG_API}/api/Student/Course/Get/${user.id}`,config)
+        return axios.get(`${process.env.REACT_APP_HOG_API}/api/Student/Course/Get/Me`, config)
+            // return axios.get(`${process.env.REACT_APP_HOG_API}/api/Student/Course/Get/${user.id}`,config)
             .then((res) => {
                 // console.log('res', res);
                 const data = res.data.data
@@ -59,15 +59,15 @@ export default function StudentCoursePage() {
         dataFetchedRef.current = true;
     }, [])
 
-    if (studentCourse  === undefined || student ===undefined ) {
+    if (studentCourse === undefined || student === undefined) {
         return <LoadingScreen />
     }
-    
+
     // Map the student courses
     const mappedStudentCourse = studentCourse.map((course, index) => {
         return {
             id: course.registeredCourse.id.toString(),
-            course: course.registeredCourse.course, 
+            course: course.registeredCourse.course,
             subject: course.registeredCourse.subject,
             level: course.registeredCourse.level,
             type: course.request.courseType,
@@ -84,7 +84,7 @@ export default function StudentCoursePage() {
 
     // console.log('fetched',currentStudents)
     // console.log('dummy',currentStudent)
-    console.log(currentStudents)
+    // console.log(currentStudents)
     return (
         <>
             <Helmet>

@@ -81,8 +81,8 @@ export default function DailyCalendarPage() {
                     if (data.length === 0) {
                         setClasses([])
                     } else {
-                        console.log(data);
-                        data.map((eachSchedule) => (eachSchedule.classes.map((eachClass) => {
+                        const filteredData = data.filter((eachData) => eachData.requestStatus === 'Complete')
+                        filteredData.map((eachSchedule) => (eachSchedule.classes.map((eachClass) => {
                             return setClasses(classes => [...classes, {
                                 id: eachClass.id,
                                 date: eachClass.date,

@@ -28,7 +28,7 @@ export default function NewAccountPage() {
     const fetchData = async () => {
         return axios.get(`${process.env.REACT_APP_HOG_API}/api/Teacher/Get/${id}`)
             .then((res) => {
-                console.log('res', res);
+                // console.log('res', res);
                 const data = res.data.data
                 setTeacher(data)
                 // console.log('data', data)

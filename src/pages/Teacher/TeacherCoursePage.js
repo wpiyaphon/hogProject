@@ -31,7 +31,7 @@ export default function TeacherCoursePage() {
 
     const fetchStudent = async () => {
         // return axios.get(`${process.env.REACT_APP_HOG_API}/api/Teacher/Get/${user.id}`,config)
-        return axios.get(`${process.env.REACT_APP_HOG_API}/api/Teacher/Get/${user.id}`, config)
+        return axios.get(`${process.env.REACT_APP_HOG_API}/api/Teacher/Get/Me`, config)
             .then((res) => {
                 // console.log('res', res);
                 const data = res.data.data
@@ -42,7 +42,7 @@ export default function TeacherCoursePage() {
     }
 
     const fetchCourse = async () => {
-        return axios.get(`${process.env.REACT_APP_HOG_API}/api/Teacher/Course/Get/${user.id}`, config)
+        return axios.get(`${process.env.REACT_APP_HOG_API}/api/Teacher/Course/Get/Me`, config)
             // return axios.get(`${process.env.REACT_APP_HOG_API}/api/Student/Course/Get/${user.id}`,config)
             .then((res) => {
                 // console.log('res', res);
@@ -107,7 +107,8 @@ export default function TeacherCoursePage() {
             level: course.course.level,
             type: course.request.courseType,
             paymentStatus: course.request.status,
-            isActive: course.course.isActive
+            isActive: course.course.isActive,
+            section: course.course.section
         };
     });
 
@@ -115,7 +116,7 @@ export default function TeacherCoursePage() {
         teacherPrivateCourse: mappedTeacherCourses,
     };
 
-    console.log(currentTeachers);
+    // console.log(currentTeachers);
 
 
     return (

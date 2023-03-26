@@ -33,7 +33,7 @@ export default function TeacherCheckPrivateAttendance({ classes }) {
     const [openDiscardDialog, setOpenDiscardDialog] = useState(false);
 
     const fetchClass = async () => {
-        return axios.get(`${process.env.REACT_APP_HOG_API}/api/Teacher/Course/Get/${user.id}`, config)
+        return axios.get(`${process.env.REACT_APP_HOG_API}/api/Teacher/Course/Get/Me`, config)
             .then((res) => {
                 // console.log('res', res);
                 const data = res.data.data
@@ -75,6 +75,7 @@ export default function TeacherCheckPrivateAttendance({ classes }) {
             const mappedAttendanceStudent = eachClass.studentPrivateClasses.map((studentPrivateClass) => {
                 return {
                     student: {
+                        apiId: studentPrivateClass.id,
                         id: studentPrivateClass.studentId,
                         fullName: studentPrivateClass.fullName,
                         nickname: studentPrivateClass.nickname
@@ -105,7 +106,8 @@ export default function TeacherCheckPrivateAttendance({ classes }) {
                 section: course.section,
                 teacher: {
                     id: eachClass.teacherPrivateClass.teacherId,
-                    fullName: eachClass.teacherPrivateClass.fullName
+                    fullName: eachClass.teacherPrivateClass.fullName,
+                    workType: eachClass.teacherPrivateClass.workType
                 },
                 studentAttendance: mappedAttendanceStudent.map((attendance) => { // map attendance records for each student in this class
                     return {

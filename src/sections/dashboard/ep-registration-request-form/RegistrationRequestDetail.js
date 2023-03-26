@@ -438,7 +438,6 @@ export function PendingEPForm({ request, students, registeredCourses, schedules,
                         const payments = res.data.data[0].payment
 
                         const currentPaymentFiles = data.paymentAttachmentFiles.filter((file) => file.ref !== undefined)
-                        // console.log('currentPaymentFiles', currentPaymentFiles)
 
                         // Delete dropped files
                         const filesRef = ref(storage, `payments/${request.id}`);
@@ -476,9 +475,6 @@ export function PendingEPForm({ request, students, registeredCourses, schedules,
                             throw error;
                         });
                 }))
-
-                // console.log('data attach name', namePaymentFiles)
-                // console.log('data attach', data.paymentAttachmentFiles)
 
                 await axios.put(`${HOG_API}/api/Payment/Put`, {
                     privateRegReqId: request.id,
@@ -532,7 +528,7 @@ export function PendingEPForm({ request, students, registeredCourses, schedules,
             try {
                 const courseIds = schedules.map((eachSchedule) => eachSchedule.course.id)
                 await courseIds.forEach((id) => {
-                    axios.delete(`${HOG_API}/api/Schedule/SoftDelete/${id}`)
+                    axios.put(`${HOG_API}/api/Schedule/SoftDelete/${id}`)
                         // .then((res) => console.log(res))
                         .catch((error) => {
                             throw error;

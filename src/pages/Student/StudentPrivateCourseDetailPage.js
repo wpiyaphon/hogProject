@@ -34,7 +34,7 @@ export default function StudentPrivateCourseDetailPage() {
     const [studentCourse, setStudentCourse] = useState();
 
     const fetchClass = async () => {
-        return axios.get(`${process.env.REACT_APP_HOG_API}/api/Student/Course/Get/${user.id}`, config)
+        return axios.get(`${process.env.REACT_APP_HOG_API}/api/Student/Course/Get/Me`, config)
             .then((res) => {
                 // console.log('res', res);
                 const data = res.data.data

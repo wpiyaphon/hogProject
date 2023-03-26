@@ -30,8 +30,11 @@ export default function TeacherCheckAttendance({ currentClass, isEdit }) {
     const {
         students,
         course,
-        studentAttendance
+        studentAttendance,
+        teacher
     } = currentClass;
+
+    axios.defaults.headers.common.Authorization = `Bearer ${user.accessToken}`
 
     const [attendances, setAttendances] = useState(studentAttendance.length ? studentAttendance : []);
 
@@ -45,20 +48,12 @@ export default function TeacherCheckAttendance({ currentClass, isEdit }) {
     };
 
     const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const isValidateAttendance = () => (attendances.length === students.length && !attendances.some(attendance => attendance.value === ''));
 
-    // const handleSubmitAttendance = () => {
-    //     if (isValidateAttendance()) {
-    //         console.log(attendances)
-    //         // navigate(0, { replace: true });
-    //         // navigate(`/dashboard/teacher-course/${course.type === 'Group' ? 'group' : 'private'}-course/${course.id}`, { replace: true });
-    //         enqueueSnackbar('Successfully submitted', { variant: 'success' });
-    //     } else {
-    //         enqueueSnackbar('Please check all attendance!', { variant: 'error' });
-    //     }
-    // };
     const handleSubmitAttendance = async () => {
+        setIsSubmitting(true);
         if (isValidateAttendance()) {
             const newAttendanceData = attendances.map(({ student, value }) => ({
                 data: {
@@ -72,9 +67,8 @@ export default function TeacherCheckAttendance({ currentClass, isEdit }) {
             await axios
                 .all(
                     newAttendanceData.map(({ data }) => {
-                        // console.log(data);
                         return axios.put(`${process.env.REACT_APP_HOG_API}/api/Teacher/Student/Attendance/Put`, data)
-                            // .then(res => console.log(res))
+                        // .then(res => console.log(res))
                     })
                 )
 
@@ -85,7 +79,7 @@ export default function TeacherCheckAttendance({ currentClass, isEdit }) {
                     const attendanceStatusData = {
                         id: parseInt(classId, 10),
                         teacherId,
-                        workType: 'Normal',
+                        workType: teacher.workType,
                         status: 'Complete',
                     };
 
@@ -97,14 +91,17 @@ export default function TeacherCheckAttendance({ currentClass, isEdit }) {
                             console.error('Error updating attendance status', error);
                         });
 
+                    setIsSubmitting(false);
                     navigate(-1, { replace: true });
-                    enqueueSnackbar('Successfully submitted', { variant: 'success' });
+                    enqueueSnackbar('Successfully submitted the attendance', { variant: 'success' });
                 })
                 .catch((error) => {
                     console.error('Error updating attendance data', error);
                 });
+
             // navigate(`/dashboard/teacher-course/${course.type === 'Group' ? 'group' : 'private'}-course/${course.id}`, { replace: true });
         } else {
+            setIsSubmitting(false);
             enqueueSnackbar('Please check all attendance!', { variant: 'error' });
         }
     };
@@ -140,6 +137,7 @@ export default function TeacherCheckAttendance({ currentClass, isEdit }) {
                     onClose={() => setOpenConfirmDialog(false)}
                     onSubmit={handleSubmitAttendance}
                     isEdit={!!studentAttendance.length}
+                    isSubmitting={isSubmitting}
                 />
             </Stack>
         </>
@@ -288,11 +286,12 @@ ConfirmDialog.propTypes = {
     open: PropTypes.bool,
     onClose: PropTypes.func,
     onSubmit: PropTypes.func,
-    isEdit: PropTypes.bool
+    isEdit: PropTypes.bool,
+    isSubmitting: PropTypes.bool,
 };
 
-export function ConfirmDialog({ open, onClose, onSubmit, isEdit }) {
-    // console.log('Edit',isEdit)
+export function ConfirmDialog({ open, onClose, onSubmit, isEdit, isSubmitting }) {
+
     return (
         <Dialog open={open} fullWidth maxWidth="xs">
             <DialogTitle sx={{ mx: 'auto', pb: 0 }}>
@@ -308,7 +307,7 @@ export function ConfirmDialog({ open, onClose, onSubmit, isEdit }) {
             </DialogContent>
             <DialogActions>
                 <Button fullWidth variant="outlined" color="inherit" onClick={onClose}>Cancel</Button>
-                <LoadingButton fullWidth variant="contained" color="primary" onClick={onSubmit}>{isEdit ? 'Save Changes' : 'Submit'}</LoadingButton>
+                <LoadingButton fullWidth variant="contained" color="primary" loading={isSubmitting} onClick={onSubmit}>{isEdit ? 'Save Changes' : 'Submit'}</LoadingButton>
             </DialogActions>
         </Dialog>
     )

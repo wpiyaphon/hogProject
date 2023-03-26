@@ -28,9 +28,8 @@ export default function TeacherCalendarPage() {
     const [teacherCourse, setTeacherCourse] = useState();
 
     const fetchClass = async () => {
-        return axios.get(`${process.env.REACT_APP_HOG_API}/api/Teacher/Course/Get/${user.id}`, config)
+        return axios.get(`${process.env.REACT_APP_HOG_API}/api/Teacher/Course/Get/Me`, config)
             .then((res) => {
-                // console.log('res', res);
                 const data = res.data.data
                 setTeacherCourse(data)
                 // console.log('data', data)
@@ -89,7 +88,6 @@ export default function TeacherCalendarPage() {
     // Log the filtered classes to the console
     // console.log(filteredClasses);
 
-    // console.log('teacher',currentTeacher)
     return (
         <>
             <Helmet>

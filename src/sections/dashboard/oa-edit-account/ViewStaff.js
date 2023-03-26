@@ -11,6 +11,7 @@ import ResetPasswordDialog from '../../../components/ResetPasswordDialog';
 //
 import DisableAccountDialog from './DisableAccountDialog';
 import ActivateAccountDialog from './ActivateAccountDialog';
+import { useAuthContext } from '../../../auth/useAuthContext';
 
 // ----------------------------------------------------------------------
 ViewStaff.propTypes = {
@@ -19,6 +20,7 @@ ViewStaff.propTypes = {
 
 export default function ViewStaff({ currentStaff }) {
     const navigate = useNavigate();
+    const { user } = useAuthContext();
 
     const [openResetPasswordDialog, setOpenResetPasswordDialog] = useState(false);
     const [openDeleteAccountDialog, setOpenDeleteAccountDialog] = useState(false);
@@ -78,22 +80,26 @@ export default function ViewStaff({ currentStaff }) {
 
                     <Grid item xs={12} md={12} sx={{ mt: 2 }}>
                         <Stack direction="row" justifyContent="space-between" alignItems="center">
-                            {currentStaff.isActive ? (
-                                <Button
-                                    variant="contained"
-                                    color='error'
-                                    onClick={() => setOpenDeleteAccountDialog(true)}
-                                >
-                                    Disable Account
-                                </Button>
+                            {currentStaff.id !== user.id ? (
+                                currentStaff.isActive ? (
+                                    <Button
+                                        variant="contained"
+                                        color='error'
+                                        onClick={() => setOpenDeleteAccountDialog(true)}
+                                    >
+                                        Disable Account
+                                    </Button>
+                                ) : (
+                                    <Button
+                                        variant="contained"
+                                        color='success'
+                                        onClick={() => setOpenActivateAccountDialog(true)}
+                                    >
+                                        Activate Account
+                                    </Button>
+                                ) 
                             ) : (
-                                <Button
-                                    variant="contained"
-                                    color='success'
-                                    onClick={() => setOpenActivateAccountDialog(true)}
-                                >
-                                    Activate Account
-                                </Button>
+                                <Stack />
                             )}
 
                             <Stack direction="row" justifyContent="flex-end" alignItems="center" spacing={1}>

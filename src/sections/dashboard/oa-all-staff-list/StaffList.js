@@ -153,7 +153,7 @@ export default function StaffList({ allStaffs }) {
                   sx={{ cursor: 'pointer' }}
                   onClick={() => navigate(`/account/staff-management/staff/${row.id}`)}
                 >
-                  <TableCell align="left"> {row.id} </TableCell>
+                  <TableCell align="left" sx={{pl: 5}}> {row.id} </TableCell>
                   <TableCell align="left">{row.fName} {row.lName}</TableCell>
                   <TableCell align="left">{row.nickname}</TableCell>
                   <TableCell align="left">{row.role}</TableCell>

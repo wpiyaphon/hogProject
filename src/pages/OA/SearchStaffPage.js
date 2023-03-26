@@ -44,8 +44,7 @@ export default function SearchStaffPage() {
     const fetchData = async () => {
         await axios.get(`${HOG_API}/api/Staff/Get`)
             .then((res) => {
-                const filteredStaff = res.data.data.filter(staff => staff.id !== user.id);
-                setAllStaffs(filteredStaff)
+                setAllStaffs(res.data.data)
             })
             .catch((error) => console.error(error))
     }
