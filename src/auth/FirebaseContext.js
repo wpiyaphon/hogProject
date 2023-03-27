@@ -125,6 +125,7 @@ export function AuthProvider({ children }) {
         }
     };
 
+
     // LOGIN
     const login = async (email, password) => (signInWithEmailAndPassword(AUTH, email, password))
 
@@ -330,16 +331,16 @@ export function AuthProvider({ children }) {
     }
 
     // CREATE TEACHER
-    const registerTeacher = async (data) => {
-        await axios.post(`${HOG_API}/api/Teacher/Post`, data)
+    const registerTeacher = async (data, config) => {
+        await axios.post(`${HOG_API}/api/Teacher/Post`, data, config)
             .catch((error) => {
                 throw error;
             })
     }
 
     // CREATE EP, EA, OA
-    const registerStaff = async (data) => {
-        await axios.post(`${HOG_API}/api/Staff/Post`, data)
+    const registerStaff = async (data, config) => {
+        await axios.post(`${HOG_API}/api/Staff/Post`, data, config)
             .catch((error) => {
                 throw error;
             })

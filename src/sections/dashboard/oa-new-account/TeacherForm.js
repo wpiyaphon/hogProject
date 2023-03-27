@@ -18,8 +18,10 @@ import FormProvider, { RHFTextField, RHFCheckbox, RHFSelect } from '../../../com
 // ----------------------------------------------------------------------
 
 export default function TeacherForm() {
-    const { registerTeacher } = useAuthContext();
+    const { registerTeacher, user } = useAuthContext();
     const { enqueueSnackbar } = useSnackbar();
+
+    const config = { headers: { Authorization: `Bearer ${user.accessToken}`} }
 
 
     const NewEASchema = Yup.object().shape({
@@ -194,7 +196,7 @@ export default function TeacherForm() {
         }
 
         try {
-            await registerTeacher(formattedData)
+            await registerTeacher(formattedData, config)
             reset(defaultValues);
             setOpenConfirmDialog(false);
             setCreateLoading(false);

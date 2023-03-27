@@ -16,8 +16,10 @@ import FormProvider, { RHFTextField } from '../../../components/hook-form';
 // ----------------------------------------------------------------------
 
 export default function EPForm() {
-    const { registerStaff } = useAuthContext();
+    const { registerStaff, user } = useAuthContext();
     const { enqueueSnackbar } = useSnackbar();
+
+    const config = { headers: { Authorization: `Bearer ${user.accessToken}`} }
 
     const NewEASchema = Yup.object().shape({
         role: Yup.string().required('Role is required'),
@@ -73,7 +75,7 @@ export default function EPForm() {
     const handleCreateAccount = async () => {
         setCreateLoading(true)
         try {
-            await registerStaff(createdData);
+            await registerStaff(createdData, config);
             reset(defaultValues);
             setOpenConfirmDialog(false);
             setCreateLoading(false);
