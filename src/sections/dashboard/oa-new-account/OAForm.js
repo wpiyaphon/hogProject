@@ -18,7 +18,7 @@ export default function OAForm() {
     const { registerStaff, user } = useAuthContext();
     const { enqueueSnackbar } = useSnackbar();
 
-    const config = { headers: { Authorization: `Bearer ${user.accessToken}`} }
+    const config = { headers: { Authorization: `Bearer ${user.accessToken}` } }
 
     const NewEASchema = Yup.object().shape({
         role: Yup.string().required('Role is required'),
@@ -80,8 +80,13 @@ export default function OAForm() {
             setCreateLoading(false);
             enqueueSnackbar("Account has been created!", { variant: 'success' })
         } catch (error) {
-            setCreateLoading(false);
-            enqueueSnackbar(error.message, { variant: 'error' });
+            if (error.message === 'Request failed with status code 400') {
+                setCreateLoading(false);
+                enqueueSnackbar('Email is already registered!', { variant: 'error' });
+            } else {
+                setCreateLoading(false);
+                enqueueSnackbar(error.message, { variant: 'error' });
+            }
         }
     }
 

@@ -1,8 +1,8 @@
 {
-  "name": "@minimal/minimal-kit-react",
-  "author": "Minimals UI",
+  "name": "@griffin-ed/house-of-griffin",
+  "author": "House of griffin",
   "version": "4.0.0",
-  "description": "Simple React Scripts & Javascript",
+  "description": "Demo platform for House of Griffin",
   "private": true,
   "scripts": {
     "start": "react-scripts start",

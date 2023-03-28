@@ -80,8 +80,13 @@ export default function EAForm() {
             setCreateLoading(false);
             enqueueSnackbar("Account has been created!", { variant: 'success' })
         } catch (error) {
-            setCreateLoading(false);
-            enqueueSnackbar(error.message, { variant: 'error' });
+            if (error.message === 'Request failed with status code 400') {
+                setCreateLoading(false);
+                enqueueSnackbar('Email is already registered!', { variant: 'error' });
+            } else {
+                setCreateLoading(false);
+                enqueueSnackbar(error.message, { variant: 'error' });
+            }
         }
     }
 
