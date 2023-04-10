@@ -102,9 +102,6 @@ export default function ViewEditStudentCoursePage() {
         )
     }
 
-    console.log('pendingCourses', pendingCourses)
-
-
     return (
         <>
             <Helmet>

@@ -705,13 +705,17 @@ export function CreateScheduleDialog({
   }
 
   const handleCreate = () => {
-    if (parseInt(selectedCourse.totalHour, 10) !== accumulatedHours()) {
-      enqueueSnackbar('Total hours are not match!', { variant: 'error' });
-    } else {
-      onCreate(schedules);
-      setSchedules([]);
-      close();
-    }
+    // if (parseInt(selectedCourse.totalHour, 10) !== accumulatedHours()) {
+    //   enqueueSnackbar('Total hours are not match!', { variant: 'error' });
+    // } else {
+    //   onCreate(schedules);
+    //   setSchedules([]);
+    //   close();
+    // }
+
+    onCreate(schedules);
+    setSchedules([]);
+    close();
   };
 
   const customTextFieldStyle = {
@@ -885,28 +889,9 @@ export function CreateScheduleDialog({
           </Grid>
 
           <Grid item xs={12} md={7}>
-            <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 2, mr: 1.5 }}>
+            <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 1.9, mr: 1.5 }}>
               <Typography variant="h6">Classes & Schedules</Typography>
             </Stack>
-
-            {/* <Grid container direction="row" spacing={2}>
-              <Grid item>
-                <TextField
-                  label="Date"
-                  InputProps={{
-                    style: customTextFieldStyle,
-                  }}
-                />
-              </Grid>
-              <Grid item>
-                <TextField
-                  label="Hello world"
-                  InputProps={{
-                    style: customTextFieldStyle,
-                  }}
-                />
-              </Grid>
-            </Grid> */}
 
             <AddClassSection
               onAdd={handleAddClass}
@@ -917,7 +902,7 @@ export function CreateScheduleDialog({
               students={mapStudentsForAddEditDialog()}
             />
 
-            <Scrollbar sx={{ maxHeight: '28.1rem', pr: 1.5 }}>
+            <Scrollbar sx={{ maxHeight: '25rem', pr: 1.5 }}>
               {!!schedules.length && (
                 <TableContainer component={Paper}>
                   <Table sx={{ width: '100%' }}>
@@ -939,7 +924,10 @@ export function CreateScheduleDialog({
                       {schedules.map((eachClass, index) => {
                         displayAccumulatedHours += parseInt(eachClass.hourPerClass, 10);
                         return (
-                          <StyledTableRow key={index}>
+                          <StyledTableRow
+                            key={index}
+                            sx={{ backgroundColor: eachClass.teacher.workType !== 'Normal' && '#D6E4FF' }}
+                          >
                             <StyledTableCell component="th" scope="row" align="center">
                               {(index + 1).toString()}
                             </StyledTableCell>
@@ -987,8 +975,8 @@ export function CreateScheduleDialog({
           <Grid container item justifyContent="flex-end" sx={{ mr: 1, mb: 2 }}>
             <Button
               variant="contained"
-              size="large"
-              disabled={accumulatedHours() !== selectedCourse.totalHour}
+              disabled={accumulatedHours() === 0}
+              size='large'
               onClick={handleCreate}
             >
               {checkAlreadyCreated(completeCourses, selectedCourse) ? 'Save Changes' : 'Create'}

@@ -217,8 +217,6 @@ export function CourseSection({ courses, onView, schedules, hasSchedule, created
     // Schedule Dialog for group
     const [open, setOpen] = useState(false);
     const [selectedCourse, setSelectedCourse] = useState({});
-
-
     return (
         <Card sx={{ p: 3 }}>
             <Grid container
@@ -227,7 +225,7 @@ export function CourseSection({ courses, onView, schedules, hasSchedule, created
                 <Grid item xs={6} md={6}>
                     <Typography variant="h6">{`New Course(s)`}</Typography>
                 </Grid>
-                {!!createdByEA && (
+                {!!createdByEA && Object.keys(createdByEA).length !== 0 && (
                     <Grid item xs={6} md={6}>
                         <Stack direction="row" justifyContent="end" sx={{ mr: 1 }}>
                             <Typography variant="subtitle2">{`Scheduled by: ${createdByEA.fName} (${createdByEA.nickname})`}</Typography>
@@ -529,7 +527,6 @@ export function PendingEPForm({ request, students, registeredCourses, schedules,
                 const courseIds = schedules.map((eachSchedule) => eachSchedule.course.id)
                 await courseIds.forEach((id) => {
                     axios.put(`${HOG_API}/api/Schedule/SoftDelete/${id}`)
-                        // .then((res) => console.log(res))
                         .catch((error) => {
                             throw error;
                         })
@@ -857,8 +854,6 @@ export function PendingOAForm({ request, students, registeredCourses, schedules,
         setOpenCourseDialog(false);
     }
 
-    console.log(request)
-
     return (
         <>
             <Grid container spacing={3}>
@@ -999,8 +994,6 @@ export function RejectForm({ request, students, registeredCourses, schedules, ha
         epRemark2,
         eaRemark
     } = request;
-
-    // console.log('sc',schedules);
 
     const [selectedCourse, setSelectedCourse] = useState({});
     const [currentSchedule, setCurrentSchedule] = useState({});

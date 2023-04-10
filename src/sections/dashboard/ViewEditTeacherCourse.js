@@ -229,6 +229,7 @@ export default function ViewEditTeacherCourse({ currentTeacher, currentCourses, 
                         selectedRequest={selectedRequest}
                         students={selectedSchedules[0].studentPrivateClasses}
                         role={role}
+                        section={selectedRequest.section}
                     />
                 )
             }

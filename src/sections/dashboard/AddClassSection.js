@@ -165,7 +165,6 @@ export function AddClassSection({
       }
 
       if (courseCustom && sameDateClassId !== 0) {
-        // console.log(`${HOG_API}/api/CheckAvailable/GetAvailableTime?${studentList}date=${fDate(values.classDate, 'dd-MMM-yyyy')}&hour=${newHour}&classId=${sameDateClassId}`)
         axios(
           `${HOG_API}/api/CheckAvailable/GetAvailableTime?${studentList}date=${fDate(
             values.classDate,
@@ -173,7 +172,6 @@ export function AddClassSection({
           )}&hour=${newHour}&classId=${sameDateClassId}`
         )
           .then((res) => {
-            // console.log('availableTime', res.data.data)
             setAvailableTime(res.data.data);
             setIsLoadingTime(false);
           })
@@ -181,7 +179,6 @@ export function AddClassSection({
             throw error;
           });
       } else {
-        // console.log(`${HOG_API}/api/CheckAvailable/GetAvailableTime?${studentList}date=${fDate(values.classDate, 'dd-MMM-yyyy')}&hour=${newHour}&classId=0`)
         axios(
           `${HOG_API}/api/CheckAvailable/GetAvailableTime?${studentList}date=${fDate(
             values.classDate,
@@ -236,7 +233,6 @@ export function AddClassSection({
             throw error;
           });
       } else {
-        // console.log(`${HOG_API}/api/CheckAvailable/GetAvailableTeacher?fromTime=${fromTime}&toTime=${toTime}&date=${fDate(values.classDate, 'dd-MMM-yyyy')}&classId=0`)
         axios(
           `${HOG_API}/api/CheckAvailable/GetAvailableTeacher?fromTime=${fromTime}&toTime=${toTime}&date=${fDate(
             values.classDate,
@@ -291,7 +287,7 @@ export function AddClassSection({
                       error={!!error}
                       helperText={error?.message}
                       required
-                      autoComplete='off'
+                      autoComplete="off"
                     />
                   )}
                   disableOpenPicker
