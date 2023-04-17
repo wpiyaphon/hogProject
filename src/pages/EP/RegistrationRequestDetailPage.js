@@ -45,8 +45,6 @@ export default function RegistrationRequestDetailPage() {
         return <LoadingScreen />
     }
 
-    // const currentMockRequest = (id === '1') ? MOCKUP_GROUP_REQUEST : MOCKUP_PRIVATE_REQUEST;
-
     return (
         <>
             <Helmet>

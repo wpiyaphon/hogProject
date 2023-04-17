@@ -26,23 +26,6 @@ export default function ViewTeacher({ currentTeacher }) {
     const [openDeleteAccountDialog, setOpenDeleteAccountDialog] = useState(false);
     const [openActivateAccountDialog, setOpenActivateAccountDialog] = useState(false);
 
-    // const defaultValues = {
-    //     role: 'Teacher',
-    //     fName: currentTeacher?.fName || '',
-    //     lName: currentTeacher?.lName || '',
-    //     nickname: currentTeacher?.nickname || '',
-    //     phone: currentTeacher?.phone || '',
-    //     line: currentTeacher?.line || '',
-    //     email: currentTeacher?.email || '',
-    //     monday: currentTeacher.monday.fromTime !== '' ? { isSelected: true, fromTime: currentTeacher.monday.fromTime, toTime: currentTeacher.monday.toTime } : { isSelected: false, fromTime: '', toTime: '' },
-    //     tuesday: currentTeacher.tuesday.fromTime !== '' ? { isSelected: true, fromTime: currentTeacher.tuesday.fromTime, toTime: currentTeacher.tuesday.toTime } : { isSelected: false, fromTime: '', toTime: '' },
-    //     wednesday: currentTeacher.wednesday.fromTime !== '' ? { isSelected: true, fromTime: currentTeacher.wednesday.fromTime, toTime: currentTeacher.wednesday.toTime } : { isSelected: false, fromTime: '', toTime: '' },
-    //     thursday: currentTeacher.thursday.fromTime !== '' ? { isSelected: true, fromTime: currentTeacher.thursday.fromTime, toTime: currentTeacher.thursday.toTime } : { isSelected: false, fromTime: '', toTime: '' },
-    //     friday: currentTeacher.friday.fromTime !== '' ? { isSelected: true, fromTime: currentTeacher.friday.fromTime, toTime: currentTeacher.friday.toTime } : { isSelected: false, fromTime: '', toTime: '' },
-    //     saturday: currentTeacher.saturday.fromTime !== '' ? { isSelected: true, fromTime: currentTeacher.saturday.fromTime, toTime: currentTeacher.saturday.toTime } : { isSelected: false, fromTime: '', toTime: '' },
-    //     sunday: currentTeacher.sunday.fromTime !== '' ? { isSelected: true, fromTime: currentTeacher.sunday.fromTime, toTime: currentTeacher.sunday.toTime } : { isSelected: false, fromTime: '', toTime: '' }
-    // };
-
     const defaultValues = {
         role: 'Teacher',
         fName: currentTeacher?.fName || '',
@@ -67,7 +50,6 @@ export default function ViewTeacher({ currentTeacher }) {
     const handleClickEdit = () => {
         navigate(`/account/teacher-management/teacher/${currentTeacher.id}/edit`);
     };
-    console.log(currentTeacher)
 
     return (
         <FormProvider methods={methods}>

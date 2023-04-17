@@ -136,7 +136,7 @@ export function AuthProvider({ children }) {
             fName: _.capitalize(data.studentFirstName),
             lName: _.capitalize(data.studentLastName),
             nickname: _.capitalize(data.studentNickname),
-            profilePicture: data.studentImageURL.name,
+            profilePicture: data.studentImageURL.name || "",
             additionalFiles: nameAdditionalFiles || [],
             dob: fDate(data.studentDateOfBirth, 'dd-MMMM-yyyy'),
             phone: data.studentPhoneNo,
@@ -166,6 +166,8 @@ export function AuthProvider({ children }) {
                 zipcode: data.zipCode,
             }
         }
+
+        console.log(formattedData);
 
         return axios.post(`${HOG_API}/api/Student/Post`, formattedData, config)
             .then(async (res) => {

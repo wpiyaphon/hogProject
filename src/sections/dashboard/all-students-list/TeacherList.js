@@ -2,7 +2,6 @@ import PropTypes from 'prop-types'
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate, Link } from 'react-router-dom';
-
 // @mui
 import { Table, Tooltip, TableRow, TableBody, TableCell, IconButton, TableContainer } from '@mui/material';
 // components
@@ -53,11 +52,6 @@ export default function TeacherList({ teacherTableData }) {
 
   const [tableData, setTableData] = useState(teacherTableData);
   const [openConfirm, setOpenConfirm] = useState(false);
-
-
-  // useEffect(() => {
-  //   setTableData(TABLE_DATA);
-  // }, []);
 
   // Search
   const [filterValue, setFilterValue] = useState('');

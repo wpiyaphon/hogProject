@@ -97,34 +97,34 @@ export default function StudentNewEditForm({ isEdit = false, currentStudent, cur
         studentPhoneNo: Yup.string().min(10, 'Phone number must contain 10 numbers').max(10, 'phone number must contain 10 numbers').required('Phone number is required'),
         studentLineId: Yup.string().required('Line ID is required'),
         studentEmail: Yup.string().required('Email is required').email('Must be a valid email'),
-        schoolName: Yup.string().required('School name is required'),
-        schoolCountry: Yup.string().nullable().required('Country is required'),
-        levelOfStudy: Yup.string().required('Level of study is required'),
-        targetUniversity: Yup.string(),
-        targetScore: Yup.string(),
-        studyProgram: Yup.string().required('Study program is required'),
-        otherProgram: Yup.string()
-            .when('studyProgram', {
-                is: 'Other',
-                then: Yup.string().required('Other program is required')
-            }),
-        address: Yup.string().required('Address is required'),
-        subDistrict: Yup.string().required('Sub-District is required'),
-        district: Yup.string().required('District is required'),
-        province: Yup.string().required('Province is required'),
-        zipCode: Yup.string().min(5, 'Zipcode must contain 5 numbers').max(5, 'Zipcode must contain 5 numbers').required('ZipCode is required'),
-        parentFirstName: Yup.string().required('Firstname is required'),
-        parentLastName: Yup.string().required('Lastname is required'),
-        parentRelationships: Yup.string().required('Relationships is required'),
-        parentPhoneNo: Yup.string().min(10, 'Phone number must contain 10 numbers').max(10, 'phone number must contain 10 numbers').required('Phone number is required'),
-        parentEmail: Yup.string().email('Must be a valid email').required('Email is required'),
-        parentLineId: Yup.string().required('Line ID is required'),
-        studentHealthInfo: Yup.string(),
-        studentSource: Yup.string(),
-        studentImageURL: Yup.mixed()
-            .test('required', "Student photo is required", (file) => file !== '')
-            .test('fileSize', 'The file is too large', (file) => file && file.size <= MAX_FILE_SIZE)
-            .test('fileFormat', 'Student Photo has unsupported format', (file) => file && (FILE_FORMATS.includes(file.type)))
+        // schoolName: Yup.string().required('School name is required'),
+        // schoolCountry: Yup.string().nullable().required('Country is required'),
+        // levelOfStudy: Yup.string().required('Level of study is required'),
+        // targetUniversity: Yup.string(),
+        // targetScore: Yup.string(),
+        // studyProgram: Yup.string().required('Study program is required'),
+        // otherProgram: Yup.string()
+        //     .when('studyProgram', {
+        //         is: 'Other',
+        //         then: Yup.string().required('Other program is required')
+        //     }),
+        // address: Yup.string().required('Address is required'),
+        // subDistrict: Yup.string().required('Sub-District is required'),
+        // district: Yup.string().required('District is required'),
+        // province: Yup.string().required('Province is required'),
+        // zipCode: Yup.string().min(5, 'Zipcode must contain 5 numbers').max(5, 'Zipcode must contain 5 numbers').required('ZipCode is required'),
+        // parentFirstName: Yup.string().required('Firstname is required'),
+        // parentLastName: Yup.string().required('Lastname is required'),
+        // parentRelationships: Yup.string().required('Relationships is required'),
+        // parentPhoneNo: Yup.string().min(10, 'Phone number must contain 10 numbers').max(10, 'phone number must contain 10 numbers').required('Phone number is required'),
+        // parentEmail: Yup.string().email('Must be a valid email').required('Email is required'),
+        // parentLineId: Yup.string().required('Line ID is required'),
+        // studentHealthInfo: Yup.string(),
+        // studentSource: Yup.string(),
+        // studentImageURL: Yup.mixed()
+        //     .test('required', "Student photo is required", (file) => file !== '')
+        //     .test('fileSize', 'The file is too large', (file) => file && file.size <= MAX_FILE_SIZE)
+        //     .test('fileFormat', 'Student Photo has unsupported format', (file) => file && (FILE_FORMATS.includes(file.type)))
     });
 
     const allStudyOptions = Object.values(STUDY_PROGRAM_OPTIONS);
@@ -214,6 +214,7 @@ export default function StudentNewEditForm({ isEdit = false, currentStudent, cur
                 reset(defaultValues);
             }
         } catch (error) {
+            console.error(error);
             enqueueSnackbar(`${error.message}`, { variant: 'error' });
             setIsSubmitting(false);
         }
@@ -319,12 +320,6 @@ export default function StudentNewEditForm({ isEdit = false, currentStudent, cur
                                 }}
                             >
                                 Student Image
-                                <Typography
-                                    component="span"
-                                    sx={{ color: '#db3131' }}
-                                >
-                                    *
-                                </Typography>
                             </Typography>
 
                             <RHFUploadAvatar
@@ -346,7 +341,7 @@ export default function StudentNewEditForm({ isEdit = false, currentStudent, cur
                                         <br /> max size of {fData(3145728)}
                                     </Typography>
                                 }
-                                required
+                                
                             />
                         </Box>
                     </Card>
@@ -453,7 +448,7 @@ export default function StudentNewEditForm({ isEdit = false, currentStudent, cur
                                 sm: 'repeat(1, 1fr)',
                             }}
                         >
-                            <RHFTextField name="schoolName" label="School Name" required />
+                            <RHFTextField name="schoolName" label="School Name" />
 
                             <RHFAutocomplete
                                 name="schoolCountry"
@@ -464,14 +459,14 @@ export default function StudentNewEditForm({ isEdit = false, currentStudent, cur
                                         <Chip {...getTagProps({ index })} key={option} size="small" label={option} />
                                     ))
                                 }
-                                renderInput={(params) => <TextField label="School Country" {...params} required />}
+                                renderInput={(params) => <TextField label="School Country" {...params} />}
                             />
 
                             <RHFSelect
                                 name="levelOfStudy"
                                 label="Level of Study"
                                 SelectProps={{ native: false, sx: { textTransform: 'capitalize' } }}
-                                required>
+                                >
                                 {STUDY_LEVEL_OPTIONS.map((option) => (
                                     <MenuItem
                                         key={option.value}
@@ -493,7 +488,7 @@ export default function StudentNewEditForm({ isEdit = false, currentStudent, cur
                             <RHFTextField name="targetUniversity" label="Target University" />
                             <RHFTextField name="targetScore" label="Target Score" />
                             <RHFRadioGroup name="studyProgram" options={STUDY_PROGRAM_OPTIONS} label="Study Program" onClick={handleChangeOther} />
-                            {showOtherStudyProgram && <RHFTextField name="otherProgram" label="Study Program" required />}
+                            {showOtherStudyProgram && <RHFTextField name="otherProgram" label="Study Program" />}
                         </Box>
                     </Card>
                 </Grid>
@@ -520,19 +515,19 @@ export default function StudentNewEditForm({ isEdit = false, currentStudent, cur
                             }}
                         >
                             <Box gridArea={"address"}>
-                                <RHFTextField name="address" label="Address" required />
+                                <RHFTextField name="address" label="Address" />
                             </Box>
                             <Box gridArea={"subDistrict"}>
-                                <RHFTextField name="subDistrict" label="Sub-District" required />
+                                <RHFTextField name="subDistrict" label="Sub-District" />
                             </Box>
                             <Box gridArea={"district"}>
-                                <RHFTextField name="district" label="District" required />
+                                <RHFTextField name="district" label="District" />
                             </Box>
                             <Box gridArea={"province"}>
-                                <RHFTextField name="province" label="Province" required />
+                                <RHFTextField name="province" label="Province" />
                             </Box>
                             <Box gridArea={"zipCode"}>
-                                <RHFTextField isNumber name="zipCode" label="Zip Code/Post Code" inputProps={{ maxLength: 5 }} required />
+                                <RHFTextField isNumber name="zipCode" label="Zip Code/Post Code" inputProps={{ maxLength: 5 }} />
                             </Box>
                         </Box>
                     </Card>
@@ -548,22 +543,22 @@ export default function StudentNewEditForm({ isEdit = false, currentStudent, cur
                             }}>Parent Information</Typography>
                         <Grid container direction="row" spacing={2}>
                             <Grid item xs={12} md={5}>
-                                <RHFTextField name="parentFirstName" label="First Name" required />
+                                <RHFTextField name="parentFirstName" label="First Name" />
                             </Grid>
                             <Grid item xs={12} md={5}>
-                                <RHFTextField name="parentLastName" label="Last Name" required />
+                                <RHFTextField name="parentLastName" label="Last Name" />
                             </Grid>
                             <Grid item xs={12} md={2}>
-                                <RHFTextField name="parentRelationships" label="Relationships" required />
+                                <RHFTextField name="parentRelationships" label="Relationships" />
                             </Grid>
                             <Grid item xs={12} md={4}>
-                                <RHFTextField isNumber name="parentPhoneNo" label="Phone Number" inputProps={{ maxLength: 10 }} required />
+                                <RHFTextField isNumber name="parentPhoneNo" label="Phone Number" inputProps={{ maxLength: 10 }} />
                             </Grid>
                             <Grid item xs={12} md={4}>
-                                <RHFTextField name="parentEmail" label="Email Address" required />
+                                <RHFTextField name="parentEmail" label="Email Address" />
                             </Grid>
                             <Grid item xs={12} md={4}>
-                                <RHFTextField name="parentLineId" label="Line ID" required />
+                                <RHFTextField name="parentLineId" label="Line ID" />
                             </Grid>
                         </Grid>
                     </Card>
